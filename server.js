@@ -10,6 +10,9 @@ const http = require('http');
 
 const PORT_NUM = '3000'
 
+// initialize process.envs with config values
+require('dotenv').config()
+
 /**
  * Get port from environment and store in Express.
  */
