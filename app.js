@@ -8,7 +8,7 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
-// Establish connection with mongodb
+// Connect to MongoDB (provide URI in .env)
 const MongoClient = require('mongodb').MongoClient
 console.log(process.env.DB_LINK)
 const client = new MongoClient(process.env.DB_LINK, {useNewUrlParser: true, useUnifiedTopology: true})

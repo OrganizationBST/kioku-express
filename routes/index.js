@@ -6,7 +6,7 @@ router.get('/', function(req, res) {
   res.send({ status: 'Dummy' });
 });
 
-router.get('/getCard', function(req,res)) {
-  
-}
+router.get('/getCard', function(req,res) {
+
+});
 module.exports = router;
