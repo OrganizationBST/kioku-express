@@ -8,7 +8,22 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
-// USE THIS TO SET TO DEVELOPMENT OR RELEASE
+// Establish connection with mongodb
+const MongoClient = require('mongodb').MongoClient
+console.log(process.env.DB_LINK)
+const client = new MongoClient(process.env.DB_LINK, {useNewUrlParser: true, useUnifiedTopology: true})
+client.connect(err => {
+  if(err) {
+    console.log(err)
+  }
+  else {
+    const collection = client.db("test").collection("devices");
+    console.log(collection)
+    client.close();
+  }
+});
+
+// Set environment to 'development' or 'release'.
 app.set('env', 'development')
 
 app.use(logger('dev'));

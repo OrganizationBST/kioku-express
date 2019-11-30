@@ -1,5 +1,13 @@
 #!/usr/bin/env node
 
+/*
+ * Initialize process.envs with config values
+ *
+ * Expects a DB_LINK environment variable.
+ */
+
+ require('dotenv').config()
+
 /**
  * Module dependencies.
  */
@@ -9,9 +17,6 @@ const debug = require('debug')('kioku-express:server');
 const http = require('http');
 
 const PORT_NUM = '3000'
-
-// initialize process.envs with config values
-require('dotenv').config()
 
 /**
  * Get port from environment and store in Express.
