@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
+const debugRouter = require('./routes/debug');
 
 const app = express();
 
@@ -26,13 +27,16 @@ client.connect(err => {
 // Set environment to 'development' or 'release'.
 app.set('env', 'development')
 
+// Initialize all middleware.
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Starts indexRouter.
 app.use('/', indexRouter);
+app.use('/admin', debugRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
