@@ -9,25 +9,12 @@ const debugRouter = require('./routes/debug');
 
 const app = express();
 
-// Connect to MongoDB (provide URI in .env)
-const MongoClient = require('mongodb').MongoClient
-console.log(process.env.DB_LINK)
-const client = new MongoClient(process.env.DB_LINK, {useNewUrlParser: true, useUnifiedTopology: true})
-client.connect(err => {
-  if(err) {
-    console.log(err)
-  }
-  else {
-    const collection = client.db("test").collection("devices");
-    console.log(collection)
-    client.close();
-  }
-});
-
 // Set environment to 'development' or 'release'.
+// 環境を「development」または「release」に設定する
 app.set('env', 'development')
 
 // Initialize all middleware.
+// すべてのミドルウェアを初期化する
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,21 +22,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Starts indexRouter.
+// indexRouterを開始します。
 app.use('/', indexRouter);
 app.use('/admin', debugRouter);
 
-// catch 404 and forward to error handler
+// Catches 404 and forward to error handler.
+// 404をキャッチし、エラーハンドラーに転送します。
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// エラーハンドラ。
 app.use(function(err, req, res) {
-  // set locals, only providing error in development
+  // Set locals, only providing errors in development.
+  // 開発時にエラーのみを提供するようにローカルを設定します。
   res.locals.message = err.message;
   res.locals.error = app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page.
+  // エラーページを表示します。
   res.status(err.status || 500);
   res.render('error');
 });

@@ -31,7 +31,7 @@ ADMIN_CODE=whateveryouwant
 ```
 
 *Substitute `ADMIN_CODE` with your own password.*
-ALL POST requests expects `{ authorization: ADMIN_CODE }` inside of body. 
+ALL POST requests expects `{ authorization: ADMIN_CODE }` inside of body in `x-www-form-urlencoded`
 
 - **POST** /admin/deleteAllEntries
   - Deletes all entries in MongoDB.
