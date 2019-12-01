@@ -80,7 +80,7 @@ ADMIN_CODE = whateveryouwant
 ```
 
 *「ADMIN_CODE」を自分のパスワードに置き換えます。*
-すべてのPOSTリクエストでは、 `x-www-form-urlencoded`の本文内に ` {authorization：ADMIN_CODE}` が必要です
+すべてのPOSTリクエストでは、 `x-www-form-urlencoded` の本文内に ` {authorization：ADMIN_CODE}` が必要です
 
 - **POST** / admin / deleteAllEntries
   - MongoDBのすべてのエントリを削除します。
