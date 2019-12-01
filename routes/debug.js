@@ -10,27 +10,18 @@ const assert = require('assert');
 const MongoClient = require('mongodb').MongoClient
 const client = new MongoClient(process.env.DB_LINK, {useNewUrlParser: true, useUnifiedTopology: true})
 
-
-/**
- * [ROUTE]: Responsible for deleting all entries by dropping collections.
- * [REQUIRED]: Authorization.
- * 
- *「ROUTE」：コレクションを削除してすべてのエントリを削除します。
- *「REQUIRED」：認証。
- */
 router.post('/deleteAllEntries', (req, res) => {
   const { authorization } = req.body;
   const authorized = (authorization == process.env.ADMIN_CODE)
 
-  // Drop collection if authorized. (refer to constants.js)
+  // Drops collection if authorized. (refer to constants.js)
   // 許可されている場合、コレクションをドロップします。 （constants.jsを参照）
   if(authorized) {
     client.connect((err, client) => {
       assert.equal(null, err)
       const collection = client.db(dbName).collection(collName);
       collection.drop()
-
-      console.log(`[/deleteAllEntires] $(dbName) with collection $(collName) has been dropped. All data has been deleted.`)
+      console.log(`[/deleteAllEntries] $(dbName) with collection $(collName) has been dropped. All data has been deleted.`)
     });
   }
 
@@ -65,7 +56,33 @@ router.post('/populateEntries', (req, res) => {
       insertedIds: []
     })
   }
-
 })
 
+router.post('/displayAllEntries', (req, res) => { 
+  const { authorization } = req.body;
+  const authorized = (authorization == process.env.ADMIN_CODE)
+
+  // Displays all entries in database if authorized. 
+  // 許可されている場合、データベース内のすべてのエントリを表示します。
+  if (authorized) {
+    client.connect((err, client) => {
+      assert.equal(null, err) 
+      const collection = client.db(dbName).collection(collName);
+      collection.find({}).toArray()
+      .then((result) => {
+        res.send({
+          authorized,
+          documents: result
+        })
+      })
+      .catch((err) => console.log('fatal error occured', err))
+
+    })
+  } else {
+    res.send({
+      authorized,
+      documents: []
+    })
+  }
+})
 module.exports = router;

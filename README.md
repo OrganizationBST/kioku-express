@@ -38,5 +38,56 @@ ALL POST requests expects `{ authorization: ADMIN_CODE }` inside of body in `x-w
 - **POST** /admin/populateEntries
   - Initializes entries in MongoDB with a few initial decks and values.
     - _(Optional)_ you can pass in your own decks via `{ ...decks: [] }`.
+- **POST** /admin/displayAllEntries
+  - Returns a response with all documents. This is an unsafe operation and should not be used in your code, and only used for debugging purposes.
 
 ### Standard
+
+TODO
+
+# 日本語
+
+# kioku-express
+
+エンドポイントを表現します。
+
+＃セットアップとインストール
+
+まず、このディレクトリで「npm install」を実行します。
+
+その後、先に進み、kioku-expressで `.env`ファイルを作成します。
+
+内部では、 `DB_LINK`変数が設定されることを期待しています。
+
+### サンプル.env
+```
+＃.env
+DB_LINK = mongodb + srv：// ...
+```
+
+任意のMongoサーバーからURLを取得できます。この場合、MongoDBをAtlasでホストしているため、mongodb + srvを使用します（無料ティアのおかげです）。
+
+# ドキュメンテーション
+
+## ルート
+
+### 管理
+管理ルートを使用するには、.env内で「ADMIN_CODE」と呼ばれる別のキーが必要です。
+```
+＃.env
+DB_LINK = mongodb + srv：// ...
+ADMIN_CODE = whateveryouwant
+```
+
+*「ADMIN_CODE」を自分のパスワードに置き換えます。*
+すべてのPOSTリクエストでは、 `x-www-form-urlencoded`の本文内に ` {authorization：ADMIN_CODE}` が必要です
+
+- **POST** / admin / deleteAllEntries
+  - MongoDBのすべてのエントリを削除します。
+- **POST** / admin / populateEntries
+  - MongoDBのエントリをいくつかの初期デッキと値で初期化します。
+    - _(オプション)_ S`{... decks：[]}`を介して独自のデッキを渡すことができます。
+- **POST** / admin / displayAllEntries
+  - すべてのドキュメントを含む応答を返します。 これは安全ではない操作であり、コードでは使用しないでください。デバッグ目的でのみ使用してください。
+
+### 標準
