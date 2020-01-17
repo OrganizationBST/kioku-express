@@ -66,7 +66,7 @@ router.post('/displayAllEntries', (req, res) => {
   // 許可されている場合、データベース内のすべてのエントリを表示します。
   if (authorized) {
     client.connect((err, client) => {
-      assert.equal(null, err) 
+      assert.equal(null, err)
       const collection = client.db(dbName).collection(collName);
       collection.find({}).toArray()
       .then((result) => {
@@ -85,4 +85,36 @@ router.post('/displayAllEntries', (req, res) => {
     })
   }
 })
+
+router.post('/createDeck', (req, res) => {
+  const { authorization } = req.body;
+  const authorized = (authorization == process.env.ADMIN_CODE)
+  const newDeck = {
+    deckName: req.body.deckName,
+    createDate: new Date,
+    cards: req.body.cards
+  };
+
+  // Inserts new deck specified in request body if authorized.
+  if (authorized) {
+    client.connect((err, client) => {
+      assert.equal(null, err) 
+      const collection = client.db(dbName).collection(collName);
+      collection.insertOne(newDeck, null, (error, result) => {
+        assert.equal(null, error) 
+
+        res.send({
+          authorized,
+          insertedId: result.insertedId
+        })
+      })
+    })
+  } else {
+    res.send({
+      authorized,
+      insertedId: []
+    })
+  }
+})
+
 module.exports = router;
